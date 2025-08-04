@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Love Confession</title>
+  <style>
+    html, body {
+      margin: 0; height: 100%; overflow: hidden;
+      background-color: black; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4vw; text-align: center;
+    }
+    #message { z-index: 2; }
+    #stopBtn {
+      position: absolute; bottom: 20px;
+      background: red; color: white; padding: 12px 20px;
+      font-size: 1.5rem; border: none;
+      display: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="message"><b>I love you [their name] ❤️</b></div>
+  <button id="stopBtn">Stop Prank</button>
+  <script>
+    let taps = 0;
+    const stopBtn = document.getElementById('stopBtn');
+    const audio = new Audio('https://actions.google.com/sounds/v1/human_voices/moan.ogg');
+    audio.loop = true;
+    function startPrank(){
+      audio.play();
+      setInterval(() => navigator.vibrate?.(500), 2000);
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+    }
+    stopBtn.onclick = () => {
+      audio.pause();
+      document.exitFullscreen?.();
+      stopBtn.style.display = 'none';
+    };
+    document.body.addEventListener('click', () => {
+      taps++;
+      if (taps >= 5) stopBtn.style.display = 'block';
+    });
+    window.onload = startPrank;
+  </script>
+</body>
+</html>
