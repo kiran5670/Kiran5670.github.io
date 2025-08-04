@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Confession</title>
+  <style>
+    html, body {
+      margin: 0; height: 100%; overflow: hidden;
+      background: black; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5vw; text-align: center;
+    }
+    #stopBtn {
+      position: absolute; bottom: 20px;
+      padding: 12px 20px; font-size: 1.5rem;
+      background: red; color: white; border: none;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="msg">I love you Priya ❤️</div>
+  <button id="stopBtn">Stop Prank</button>
+
+  <script>
+    const audio = new Audio('https://actions.google.com/sounds/v1/human_voices/moan.ogg');
+    audio.loop = true;
+
+    let taps = 0;
+    let started = false;
+
+    function activatePrank() {
+      if (started) return;
+      started = true;
+
+      // Fullscreen
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+
+      // Play moaning sound
+      audio.play().catch(() => {});
+
+      // Vibrate loop
+      setInterval(() => {
+        if (navigator.vibrate) navigator.vibrate(500);
+      }, 2000);
+    }
+
+    // Stop button logic
+    document.body.addEventListener('click', () => {
+      taps++;
+      activatePrank();
+      if (taps >= 5) {
+        document.getElementById("stopBtn").style.display = "block";
+      }
+    });
+
+    document.getElementById("stopBtn").onclick = () => {
+      audio.pause();
+      if (document.exitFullscreen) document.exitFullscreen();
+      alert("Prank stopped!");
+    };
+  </script>
+</body>
+</html>
